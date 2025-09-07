@@ -1,4 +1,5 @@
-local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+local Version = "1.6.41"
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/download/" .. Version .. "/main.lua"))()
 
 local Window = WindUI:CreateWindow({
     Title = "Retrax | Big Paintball 2",
@@ -24,4 +25,4 @@ local Window = WindUI:CreateWindow({
         end,
     },
 
-        Sense.Load()
+       
