@@ -1,12 +1,11 @@
---// Load WindUI
 local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/dist/main.lua"))()
 
---// Main Window
+
 local Window = WindUI:CreateWindow({
-    Title = "My Script",
+    Title = Retrax",
     Icon = "geist:window",
-    Author = "Loaded",
-    Folder = "WindUI_Script",
+    Author = "q105 | discord.gg/jEVhaP8sjr",
+    Folder = "Retrax",
     Size = UDim2.fromOffset(580, 490),
     Theme = "Dark",
     Acrylic = true,
@@ -15,33 +14,33 @@ local Window = WindUI:CreateWindow({
     User = { Enabled = false }
 })
 
---// Tabs
+
 local Tabs = {
     AutoFarm = Window:Section({ Title = "AutoFarm", Opened = true })
 }
 
---// Services
+
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local Workspace = game:GetService("Workspace")
 local RunService = game:GetService("RunService")
 
--- Session ID for debug
+
 local SessionID = string.gsub(tostring(math.random()):sub(3), "%d", function(c)
     return string.char(96 + math.random(1, 26))
 end)
 
-print("✅ | Running BigPaintball2.lua GUI Version [SessionID " .. SessionID .. "]")
+print("Running BigPaintba2.lua GUI Version [SessionID " .. SessionID .. "]")
 
--- Error handling
+
 local function safeExecute(func)
     local success, errorMessage = pcall(func)
     if not success then
-        warn("⛔ | Error occurred: " .. errorMessage .. " [SessionID " .. SessionID .. "]")
+        warn("Error occurred: " .. errorMessage .. " [SessionID " .. SessionID .. "]")
     end
 end
 
--- Teleport enemies/entities
+
 local function teleportEntities(cframe, team)
     local spawnPosition = cframe * CFrame.new(0, 0, -15)
 
@@ -76,7 +75,7 @@ local function teleportEntities(cframe, team)
     end
 end
 
--- AutoFarm
+
 local AutoFarmEnabled = false
 
 task.spawn(function()
@@ -89,7 +88,7 @@ task.spawn(function()
     end
 end)
 
--- AutoFarm Tab
+
 local FarmTab = Tabs.AutoFarm:Tab({ Title = "AutoFarm Options", Icon = "cpu" })
 FarmTab:Paragraph({ Title = "AutoFarm System", Desc = "Toggle AutoFarm on or off." })
 FarmTab:Toggle({
@@ -97,6 +96,6 @@ FarmTab:Toggle({
     Value = false,
     Callback = function(state)
         AutoFarmEnabled = state
-        print((state and "✅ Enabled" or "❌ Disabled") .. " AutoFarm [SessionID " .. SessionID .. "]")
+        print((state and "Enabled" or "Disabled") .. " AutoFarm [SessionID " .. SessionID .. "]")
     end
 })
