@@ -23,3 +23,5 @@ local Window = WindUI:CreateWindow({
             print("clicked")
         end,
     },
+
+        Sense.Load()
