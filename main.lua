@@ -1,11 +1,12 @@
+--// Load WindUI
 local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/dist/main.lua"))()
 
--- Basic Window
+--// Main Window
 local Window = WindUI:CreateWindow({
-    Title = "Retrax | Big Paintball 2",
+    Title = "My Script",
     Icon = "geist:window",
-    Author = "q105 | discord.gg/jEVhaP8sjr",
-    Folder = "Retrax",
+    Author = "Loaded",
+    Folder = "WindUI_Script",
     Size = UDim2.fromOffset(580, 490),
     Theme = "Dark",
     Acrylic = true,
@@ -14,72 +15,88 @@ local Window = WindUI:CreateWindow({
     User = { Enabled = false }
 })
 
--- Tags
-Window:Tag({
-    Title = "v1.0",
-    Color = Color3.fromRGB(48, 255, 106)
-})
-
--- Topbar theme switcher
-Window:CreateTopbarButton("theme-switcher", "moon", function()
-    WindUI:SetTheme(WindUI:GetCurrentTheme() == "Dark" and "Light" or "Dark")
-end, 990)
-
--- Main Sections
+--// Tabs
 local Tabs = {
-    Player = Window:Section({ Title = "Player", Opened = true }),
-    Target = Window:Section({ Title = "Target", Opened = true }),
     AutoFarm = Window:Section({ Title = "AutoFarm", Opened = true })
 }
 
--- Player Tab Example
-local PlayerTab = Tabs.Player:Tab({ Title = "Player Options", Icon = "user" })
-PlayerTab:Paragraph({
-    Title = "Player Controls",
-    Desc = "Modify your player settings here."
-})
-PlayerTab:Toggle({
-    Title = "Speed",
-    Value = false,
-    Callback = function(state)
-        print("God Mode:", state)
-    end
-})
+--// Services
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Workspace = game:GetService("Workspace")
+local RunService = game:GetService("RunService")
 
--- Target Tab Example
-local TargetTab = Tabs.Target:Tab({ Title = "Target Options", Icon = "crosshair" })
-TargetTab:Paragraph({
-    Title = "Target System",
-    Desc = "Target related settings."
-})
-TargetTab:Dropdown({
-    Title = "Select Target",
-    Values = { "Enemy1", "Enemy2", "Enemy3" },
-    Value = "Enemy1",
-    Callback = function(selected)
-        print("Selected Target:", selected)
-    end
-})
+-- Session ID for debug
+local SessionID = string.gsub(tostring(math.random()):sub(3), "%d", function(c)
+    return string.char(96 + math.random(1, 26))
+end)
 
--- AutoFarm Tab Example
+print("✅ | Running BigPaintball2.lua GUI Version [SessionID " .. SessionID .. "]")
+
+-- Error handling
+local function safeExecute(func)
+    local success, errorMessage = pcall(func)
+    if not success then
+        warn("⛔ | Error occurred: " .. errorMessage .. " [SessionID " .. SessionID .. "]")
+    end
+end
+
+-- Teleport enemies/entities
+local function teleportEntities(cframe, team)
+    local spawnPosition = cframe * CFrame.new(0, 0, -15)
+
+    for _, entity in ipairs(Workspace.__THINGS.__ENTITIES:GetChildren()) do
+        if entity:FindFirstChild("HumanoidRootPart") then
+            local hrp = entity.HumanoidRootPart
+            hrp.CanCollide = false
+            hrp.Anchored = true
+            hrp.CFrame = spawnPosition
+        elseif entity:FindFirstChild("Hitbox") then
+            local directory = entity:GetAttribute("Directory")
+            if not (directory == "White" and entity:GetAttribute("OwnerUID") == LocalPlayer.UserId) and 
+               (not team or directory ~= team.Name) then
+                entity.Hitbox.CanCollide = false
+                entity.Hitbox.Anchored = true
+                entity.Hitbox.CFrame = spawnPosition * CFrame.new(math.random(-5,5),0,math.random(-5,5))
+            end
+        end
+    end
+
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            if not team or team.Name ~= player.Team.Name then
+                if not player.Character:FindFirstChild("ForceField") then
+                    local hrp = player.Character.HumanoidRootPart
+                    hrp.CanCollide = false
+                    hrp.Anchored = true
+                    hrp.CFrame = spawnPosition * CFrame.new(math.random(-5,5),0,math.random(-5,5))
+                end
+            end
+        end
+    end
+end
+
+-- AutoFarm
+local AutoFarmEnabled = false
+
+task.spawn(function()
+    while task.wait(0.1) do
+        safeExecute(function()
+            if AutoFarmEnabled and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                teleportEntities(LocalPlayer.Character.HumanoidRootPart.CFrame, LocalPlayer.Team)
+            end
+        end)
+    end
+end)
+
+-- AutoFarm Tab
 local FarmTab = Tabs.AutoFarm:Tab({ Title = "AutoFarm Options", Icon = "cpu" })
-FarmTab:Paragraph({
-    Title = "AutoFarm ",
-    Desc = ""
-})
+FarmTab:Paragraph({ Title = "AutoFarm System", Desc = "Toggle AutoFarm on or off." })
 FarmTab:Toggle({
     Title = "Enable AutoFarm",
     Value = false,
     Callback = function(state)
-        print("AutoFarm:", state)
+        AutoFarmEnabled = state
+        print((state and "✅ Enabled" or "❌ Disabled") .. " AutoFarm [SessionID " .. SessionID .. "]")
     end
 })
-
--- Window Events
-Window:OnClose(function()
-    print("Window closed")
-end)
-
-Window:OnDestroy(function()
-    print("Window destroyed")
-end)
