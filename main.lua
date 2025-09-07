@@ -23,15 +23,3 @@ local Window = WindUI:CreateWindow({
             print("clicked")
         end,
     },
-
-        local Tab = Window:Tab({
-    Title = "Auto Farm",
-    Icon = "target",
-    Locked = false,
-})
-
-        local Tab = Window:Tab({
-    Title = "`Target",
-    Icon = "bird",
-    Locked = false,
-})
