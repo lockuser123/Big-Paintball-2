@@ -4,7 +4,7 @@ local Window = WindUI:CreateWindow({
     Title = "Retrax | Big Paintball 2",
     Icon = "door-open",
     Author = "by q105 | discord.gg/jEVhaP8sjr",
-    Folder = "MySuperHub",
+    Folder = "Retrax",
     
     -- ↓ This all is Optional. You can remove it.
     Size = UDim2.fromOffset(580, 460),
@@ -16,15 +16,6 @@ local Window = WindUI:CreateWindow({
     HideSearchBar = true,
     ScrollBarEnabled = false,
     
-    -- ↓ Optional. You can remove it.
-    --[[ You can set 'rbxassetid://' or video to Background.
-        'rbxassetid://':
-            Background = "rbxassetid://", -- rbxassetid
-        Video:
-            Background = "video:YOUR-RAW-LINK-TO-VIDEO.webm", -- video 
-    --]]
-    
-    -- ↓ Optional. You can remove it.
     User = {
         Enabled = true,
         Anonymous = false,
