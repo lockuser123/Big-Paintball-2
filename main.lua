@@ -2,10 +2,10 @@ local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footag
 
 -- Basic Window
 local Window = WindUI:CreateWindow({
-    Title = "My Script",
+    Title = "Retrax | Big Paintball 2",
     Icon = "geist:window",
-    Author = "Loaded",
-    Folder = "WindUI_Script",
+    Author = "q105 | discord.gg/jEVhaP8sjr",
+    Folder = "Retrax",
     Size = UDim2.fromOffset(580, 490),
     Theme = "Dark",
     Acrylic = true,
@@ -39,7 +39,7 @@ PlayerTab:Paragraph({
     Desc = "Modify your player settings here."
 })
 PlayerTab:Toggle({
-    Title = "God Mode",
+    Title = "Speed",
     Value = false,
     Callback = function(state)
         print("God Mode:", state)
@@ -64,8 +64,8 @@ TargetTab:Dropdown({
 -- AutoFarm Tab Example
 local FarmTab = Tabs.AutoFarm:Tab({ Title = "AutoFarm Options", Icon = "cpu" })
 FarmTab:Paragraph({
-    Title = "AutoFarm System",
-    Desc = "Automated farming features."
+    Title = "AutoFarm ",
+    Desc = ""
 })
 FarmTab:Toggle({
     Title = "Enable AutoFarm",
